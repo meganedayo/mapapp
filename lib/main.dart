@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mapapp/sub_page.dart';
 import 'package:mapapp/aaa.dart';
 import 'package:mapapp/abc.dart';
 
@@ -12,12 +13,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      routes: {
+        '/': (context) => const MyHomePage(title: 'Flutter Demo Home Page'),
+        '/test': (context) => const TestPage(),
+      },
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
@@ -49,7 +53,9 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: const Center(child: AWidget()),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: () {
+          Navigator.pushNamed(context, '/test');
+        },
         tooltip: 'Increment',
         child: const Icon(Icons.home),
       ),
