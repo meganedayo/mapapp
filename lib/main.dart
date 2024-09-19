@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mapapp/sub_page.dart';
 import 'package:mapapp/aaa.dart';
 import 'package:mapapp/abc.dart';
 
@@ -12,19 +13,21 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      routes: {
+        '/': (context) => MyHomePage(title: 'Flutter Demo Home Page'),
+        '/test': (context) => Testpage(),
+      },
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
-
 
   final String title;
 
@@ -48,11 +51,11 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: const Center(
-        child: AWidget()
-      ),
+      body: const Center(child: AWidget()),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: () {
+          Navigator.pushNamed(context, '/test');
+        },
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
