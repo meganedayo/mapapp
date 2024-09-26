@@ -5,13 +5,24 @@ class AWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
+    return Center(
       child: Row(
         children: [
-          
-          SizedBox(width: 100, height: 100, child: Icon(Icons.add, size: 100,)),
-          Icon(Icons.home),
-          Icon(Icons.menu),
+          const SizedBox(
+              width: 100,
+              height: 100,
+              child: Icon(
+                Icons.add,
+                size: 100,
+              )),
+          const Icon(Icons.home),
+          const Icon(Icons.menu),
+          IconButton(
+            onPressed: () {
+              debugPrint("koko");
+            },
+            icon: const Icon(Icons.warning),
+          ),
         ],
       ),
     );
