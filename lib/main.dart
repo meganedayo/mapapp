@@ -54,8 +54,13 @@ class _MyHomePageState extends State<MyHomePage> {
                     height: 500,
                     width: double.infinity,
                     color: const Color.fromARGB(255, 90, 255, 227),
-                    child: Column(children: <Widget>[
-                      Image.asset('images/恐竜.png'),
+                    child: SingleChildScrollView(
+                        child: Column(children: <Widget>[
+                      Container(
+                        height: 200.0,
+                        width: double.infinity,
+                        child: Image.asset('images/dyson.png'),
+                      ),
                       ListTile(
                         leading: Icon(Icons.flutter_dash),
                         title: Text("遊具説明"),
@@ -83,7 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         title: Text("イラスト切替"),
                         onTap: () {},
                       ),
-                    ]));
+                    ])));
               });
         },
         tooltip: 'Increment',
