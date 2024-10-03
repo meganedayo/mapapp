@@ -86,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ListTile(
                         leading: Icon(Icons.info_outline_rounded),
                         title: Text("イラスト切替"),
-                        onTap: () {},
+                        onTap: () {},//一旦ステイ！！！！！！！！！
                       ),
                     ])));
               });
