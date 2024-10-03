@@ -3,18 +3,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:mapapp/firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    options: const FirebaseOptions(
-      apiKey: "AIzaSyAu32TWtcOsx_Jm0VT4RLRXhQ4ZGWMHxs4",
-      authDomain: "mappapp-95b6d.firebaseapp.com",
-      projectId: "mappapp-95b6d",
-      storageBucket: "mappapp-95b6d.appspot.com",
-      messagingSenderId: "683764084280",
-      appId: "1:683764084280:web:37fabce40463302f9400cd",
-    ),
+    options: DefaultFirebaseOptions.currentPlatform,
   );
 
   if (kDebugMode) {
