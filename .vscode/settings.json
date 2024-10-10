@@ -1,0 +1,6 @@
+{
+    "liveshare.allowGuestDebugControl": true,
+    "liveshare.languages.allowGuestCommandControl": true,
+    "liveshare.allowGuestTaskControl": true,
+    "liveshare.notebooks.allowGuestExecuteCells": false
+}

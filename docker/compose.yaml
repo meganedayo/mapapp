@@ -1,0 +1,16 @@
+services:
+  firebase:
+    tty: true 
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    ports:
+      - 9099:9099
+      - 5001:5001
+      - 8080:8080
+      - 5000:5000
+      - 9199:9199
+      - 4000:4000
+    command: firebase emulators:start
+    working_dir: /opt/firebase
