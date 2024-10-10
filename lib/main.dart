@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mapapp/pages/form_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 void main() {
@@ -38,6 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
+      //設定画面移行
       drawer: Drawer(
         child: ListView(
           children: <Widget>[
@@ -47,6 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               child: Text('設定'),
             ),
+            //プレーパークホームページへ飛ぶ
             ListTile(
               onTap: () {
                 final url =
@@ -55,6 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
               },
               title: const Text('プレーパークホームページ'),
             ),
+            //プレーパークにいる生き物図鑑のページへ飛ぶ
             ListTile(
               onTap: () {
                 final url = Uri.parse(
@@ -63,12 +67,16 @@ class _MyHomePageState extends State<MyHomePage> {
               },
               title: const Text('生き物図鑑'),
             ),
-            const ListTile(
+            //管理者設定画面へ
+             ListTile(
               title: Text('管理者設定'),
+              onTap: () => Navigator.push(context,
+              MaterialPageRoute(builder: (context)=> FormPage()))
             ),
           ],
         ),
       ),
+      //遊具説明ボタン (下からｺﾝﾆﾁﾊ‼)
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showModalBottomSheet(
@@ -80,11 +88,13 @@ class _MyHomePageState extends State<MyHomePage> {
                     color: const Color.fromARGB(255, 90, 255, 227),
                     child: SingleChildScrollView(
                         child: Column(children: <Widget>[
+                      //遊具写真
                       SizedBox(
                         height: 200.0,
                         width: double.infinity,
                         child: Image.asset('images/dyson.png'),
                       ),
+                      //遊具名
                       const ListTile(
                         leading: Icon(Icons.flutter_dash),
                         title: Text("遊具説明"),
@@ -98,6 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           letterSpacing: 4.0,
                         ),
                       ),
+                      //遊具説明
                       const Text(
                         '竹で作成されたブランコです。大人が使用しても壊れない丈夫な遊具です。',
                         style: TextStyle(
@@ -107,6 +118,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           letterSpacing: 4.0,
                         ),
                       ),
+                      //表示するイラストの選択画面へ
                       ListTile(
                         leading: const Icon(Icons.info_outline_rounded),
                         title: const Text("イラスト切替"),
