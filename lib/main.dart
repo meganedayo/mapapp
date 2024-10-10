@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:mapapp/firebase_options.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'pages/attraction_image_pick_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
