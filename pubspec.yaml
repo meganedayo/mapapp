@@ -38,6 +38,7 @@ dependencies:
   cloud_firestore: ^5.4.2
   firebase_storage: ^12.3.1
   url_launcher: ^6.3.0
+  image_picker: ^1.1.2
 
 dev_dependencies:
   flutter_test:
@@ -88,3 +89,4 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
