@@ -5,6 +5,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mapapp/firebase_options.dart';
 
+import 'pages/attraction_image_pick_page.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -48,6 +50,7 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
+//https://zenn.dev/susatthi/articles/20220615-160504-flutter-cached-network-image-test
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
@@ -66,7 +69,14 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: const Center(child: Placeholder()),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const AttractionImagePickPage(),
+            ),
+          );
+        },
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
