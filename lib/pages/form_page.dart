@@ -1,8 +1,6 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
-
-import 'package:flutter/cupertino.dart';
-import 'dart:io';
-
 import 'package:image_picker/image_picker.dart';
 
 class FormPage extends StatefulWidget {
@@ -13,20 +11,21 @@ class FormPage extends StatefulWidget {
 }
 
 class _FormPageState extends State<FormPage> {
-  File? image;
-  final picker = ImagePicker();
+  ({XFile? file, Uint8List? uint8list}) pickedFile =
+      (file: null, uint8list: null);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('イラストアップデート'),
+        title: const Text('イラストアップデート'),
       ),
-      body: Container(
+      body: SizedBox(
         width: double.infinity,
         child: Column(
           children: [
             //名前入力
-            TextField(
+            const TextField(
               decoration: InputDecoration(
                 hintText: ' 名前を入力してください',
               ),
@@ -34,25 +33,34 @@ class _FormPageState extends State<FormPage> {
 
             //画像アップロード
             ListTile(
-              title: Text('アップロード'),
+              title: const Text('アップロード'),
               onTap: () async {
-                final XFile? _image =
-                    await picker.pickImage(source: ImageSource.gallery);
+                final pickedImage =
+                    await ImagePicker().pickImage(source: ImageSource.gallery);
+
+                if (pickedImage == null) {
+                  debugPrint("pickedImage == null");
+                  return;
+                }
+
+                Uint8List imageBytes = await pickedImage.readAsBytes();
+
                 setState(() {
-                  if (_image != null) {
-                    image = File(_image.path);
-                  }
+                  pickedFile = (file: pickedImage, uint8list: imageBytes);
                 });
               },
             ),
-            image == null
-                ? const Text('画像がありません')
-                : Image.file(image!, fit: BoxFit.cover),
+
+            if (pickedFile.uint8list != null)
+              FittedBox(
+                fit: BoxFit.contain,
+                child: Image.memory(pickedFile.uint8list!),
+              ),
 
             //送信ボタン
             ElevatedButton(
+              child: const Text('送信'),
               onPressed: () {},
-              child: Text('送信'),
             ),
           ],
         ),
