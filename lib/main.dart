@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import './map1.dart';
 
 void main() {
   runApp(const MyApp());
@@ -118,6 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
+      body: const Map1(),
     );
   }
 }
