@@ -1,8 +1,27 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:mapapp/firebase_options.dart';
 import 'package:mapapp/pages/form_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  if (kDebugMode) {
+    try {
+      FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
+      FirebaseStorage.instance.useStorageEmulator("localhost", 9199);
+    } catch (e) {
+      // ignore: avoid_print
+      print(e);
+    }
+  }
   runApp(const MyApp());
 }
 
@@ -31,6 +50,7 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
+//https://zenn.dev/susatthi/articles/20220615-160504-flutter-cached-network-image-test
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
@@ -68,10 +88,14 @@ class _MyHomePageState extends State<MyHomePage> {
               title: const Text('生き物図鑑'),
             ),
             //管理者設定画面へ
-             ListTile(
-              title: Text('管理者設定'),
-              onTap: () => Navigator.push(context,
-              MaterialPageRoute(builder: (context)=> FormPage()))
+            ListTile(
+              title: const Text('管理者設定'),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const FormPage(),
+                ),
+              ),
             ),
           ],
         ),
@@ -80,14 +104,15 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showModalBottomSheet(
-              context: context,
-              builder: (BuildContext context) {
-                return Container(
-                    height: 500,
-                    width: double.infinity,
-                    color: const Color.fromARGB(255, 90, 255, 227),
-                    child: SingleChildScrollView(
-                        child: Column(children: <Widget>[
+            context: context,
+            builder: (BuildContext context) {
+              return Container(
+                height: 500,
+                width: double.infinity,
+                color: const Color.fromARGB(255, 90, 255, 227),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: <Widget>[
                       //遊具写真
                       SizedBox(
                         height: 200.0,
@@ -124,8 +149,12 @@ class _MyHomePageState extends State<MyHomePage> {
                         title: const Text("イラスト切替"),
                         onTap: () {}, //一旦ステイ！！！！！！！！！
                       ),
-                    ])));
-              });
+                    ],
+                  ),
+                ),
+              );
+            },
+          );
         },
         tooltip: 'Increment',
         child: const Icon(Icons.add),
