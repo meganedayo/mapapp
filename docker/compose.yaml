@@ -4,7 +4,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-
+    volumes:
+      - ./firebase:/opt/firebase
     ports:
       - 9005:9005 # firebase loginで使用
       - 9099:9099 # Firebase Authentication
