@@ -1,4 +1,4 @@
-FROM node:20
+FROM node:18
 
 RUN apt update && \
 apt install -y curl openjdk-17-jdk && \
