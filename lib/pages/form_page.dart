@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -52,15 +53,32 @@ class _FormPageState extends State<FormPage> {
             ),
 
             if (pickedFile.uint8list != null)
-              FittedBox(
-                fit: BoxFit.contain,
-                child: Image.memory(pickedFile.uint8list!),
+              SizedBox(
+                width: 200,
+                height: 200,
+                child: FittedBox(
+                  fit: BoxFit.contain,
+                  child: Image.memory(pickedFile.uint8list!),
+                ),
               ),
 
             //送信ボタン
             ElevatedButton(
               child: const Text('送信'),
-              onPressed: () {},
+              onPressed: () async {
+                final storageRef = FirebaseStorage.instance.ref();
+                final mountainsRef = storageRef.child("mountains.jpg");
+
+                final uint8image = pickedFile.uint8list;
+
+                if (uint8image == null) {
+                  debugPrint("画像が選択されていないときに送信ボタンを押した");
+                  return;
+                }
+
+                // Uint8Listを画像としてアップロードしたい
+                final task = await mountainsRef.putData(uint8image);
+              },
             ),
           ],
         ),
