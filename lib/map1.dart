@@ -11,7 +11,10 @@ class PinData {
   num x, y;
   final String message;
   final String imagePath;
-  PinData(this.x, this.y, this.message, this.imagePath);
+  final String explan;
+  final String realImagePath;
+  PinData(this.x, this.y, this.message, this.imagePath, this.explan,
+      this.realImagePath);
 }
 
 class _Map1 extends State<Map1> {
@@ -47,18 +50,74 @@ class _Map1 extends State<Map1> {
     );
   }
 
+  void messagePin(String message, String explan, String realImagePath) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+              height: 500,
+              width: double.infinity,
+              color: const Color.fromARGB(255, 90, 255, 227),
+              child: SingleChildScrollView(
+                  child: Column(children: <Widget>[
+                SizedBox(
+                  height: 200.0,
+                  width: double.infinity,
+                  child: Image.asset(realImagePath),
+                ),
+                const ListTile(
+                  leading: Icon(Icons.flutter_dash),
+                  title: Text("遊具説明"),
+                ),
+                Text(
+                  message,
+                  style: const TextStyle(
+                    fontSize: 25.0,
+                    fontWeight: FontWeight.normal,
+                    fontStyle: FontStyle.normal,
+                    letterSpacing: 4.0,
+                  ),
+                ),
+                Text(
+                  explan,
+                  style: const TextStyle(
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.normal,
+                    fontStyle: FontStyle.normal,
+                    letterSpacing: 4.0,
+                  ),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.info_outline_rounded),
+                  title: const Text("イラスト切替"),
+                  onTap: () {}, //一旦ステイ！！！！！！！！！
+                ),
+              ])));
+        });
+  }
+
   // ピンのリストを適当に生成
   final List<PinData> pinDataList = [
-    PinData(1300, 400, "竹のジャングルジム", "images/JangulJim.jpg"),
-    PinData(750, 600, "ハイジブランコ", "images/Branko.jpg"),
-    PinData(700, 1100, "受付", "images/CheckIn,Out.jpg"),
-    PinData(575, 300, "ツリーデッキ", "images/TreeDeck.jpg"),
-    PinData(150, 370, "展望デッキ", "images/deki.jpg"),
-    PinData(900, 370, "工作場", "images/WorkPlace.jpg"),
-    PinData(1200, 1100, "竹のシーソー", "images/si-so.jpg"),
-    PinData(950, 1050, "笹のトランポリン", "images/Jamp.png"),
-    PinData(370, 450, "ジップライン", "images/JipLine.jpg"),
-    PinData(370, 1100, "荷物置き場", "images/house.jpg"),
+    PinData(1300, 400, "竹のジャングルジム", "images/JangulJim.jpg",
+        "竹で作成されたブランコです。大人が使用しても壊れない丈夫な遊具です。", "images/jungle_gym_0.jpg"),
+    PinData(750, 600, "ハイジブランコ", "images/Branko.jpg",
+        "竹で作られたブランコです。大人の人が遊んでも壊れないが、少し心配かもね。", "images/haiji_buran_0.jpg"),
+    PinData(700, 1100, "受付", "images/CheckIn,Out.jpg", "来場したら一番初めに来てね。",
+        "images/CheckIn,Out.jpg"),
+    PinData(575, 300, "ツリーデッキ", "images/TreeDeck.jpg", "木の展望台だよ。眺めが最高です！",
+        "images/sky_deck.jpg"),
+    PinData(150, 370, "展望デッキ", "images/deki.jpg", "ツリーデッキより高いよ！",
+        "images/sky_deck.jpg"),
+    PinData(900, 370, "工作場", "images/WorkPlace.jpg", "竹を使って色んなものを作ろう！",
+        "images/work_space_0.jpg"),
+    PinData(1200, 1100, "竹のシーソー", "images/si-so.jpg", "友達と二人で遊ぼう！",
+        "images/si-so-.jpg"),
+    PinData(950, 1050, "笹のトランポリン", "images/Jamp.png", "思ったよりも跳ねるよ！",
+        "images/jump_0.jpg"),
+    PinData(370, 450, "ジップライン", "images/JipLine.jpg", "勢いよく飛び立とう！",
+        "images/jip_line_0.jpg"),
+    PinData(370, 1100, "荷物置き場", "images/house.jpg", "ここに荷物を置いてね。",
+        "images/house.jpg"),
   ];
 
   @override
@@ -111,7 +170,8 @@ class _Map1 extends State<Map1> {
                     ),
                   ),
                   onTap: () {
-                    tapPin(pinData.message);
+                    messagePin(
+                        pinData.message, pinData.explan, pinData.realImagePath);
                   },
                 ),
               ),
