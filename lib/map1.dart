@@ -57,7 +57,7 @@ class _Map1 extends State<Map1> {
           return Container(
               height: 500,
               width: double.infinity,
-              color: const Color.fromARGB(255, 90, 255, 227),
+              color: const Color.fromARGB(255, 97, 148, 98),
               child: SingleChildScrollView(
                   child: Column(children: <Widget>[
                 SizedBox(
