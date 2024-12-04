@@ -60,11 +60,14 @@ class _MyHomePageState extends State<MyHomePage> {
           drawer: Drawer(
             child: ListView(
               children: <Widget>[
-                const DrawerHeader(
-                  decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 97, 148, 98),
+                const SizedBox(
+                  height: 65,
+                  child: DrawerHeader(
+                    decoration: BoxDecoration(
+                      color: Color.fromARGB(255, 137, 211, 138),
+                    ),
+                    child: Text('設定'),
                   ),
-                  child: Text('設定'),
                 ),
                 ListTile(
                   onTap: () {
@@ -88,6 +91,8 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
           ),
+
+          
           floatingActionButton: FloatingActionButton(
             onPressed: () async {
               final isMap1 = await showModalBottomSheet<bool>(
@@ -96,7 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   return Container(
                     height: 100,
                     width: double.infinity,
-                    color: const Color.fromARGB(255, 97, 148, 98),
+                    color: const Color.fromARGB(255, 137, 211, 138),
                     child: SingleChildScrollView(
                       child: Column(
                         children: <Widget>[

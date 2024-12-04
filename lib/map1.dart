@@ -20,12 +20,19 @@ class PinData {
 class _Map1 extends State<Map1> {
   final _transformationController = TransformationController();
   double scale = 1.0;
-  double defaultWidth = 200.0;
-  double defaultHeight = 200.0;
+  double defaultWidth = 220.0;
+  double defaultHeight = 220.0;
   double defFontSize = 20.0;
 
+  @override
+  void initState() {
+    super.initState();
+    _transformationController.value = Matrix4.translationValues(
+        -defaultWidth * 3, -defaultHeight, -defFontSize);
+  }
+
   double calcWidth() {
-    return ((defaultWidth / scale) / 2);
+    return ((defaultWidth / scale) / 3);
   }
 
   double calcHeight() {
@@ -98,25 +105,25 @@ class _Map1 extends State<Map1> {
 
   // ピンのリストを適当に生成
   final List<PinData> pinDataList = [
-    PinData(1300, 400, "竹のジャングルジム", "images/JangulJim.jpg",
+    PinData(1000, 400, "竹のジャングルジム", "images/JangulJim.jpg",
         "竹で作成されたブランコです。大人が使用しても壊れない丈夫な遊具です。", "images/jungle_gym_0.jpg"),
-    PinData(750, 600, "ハイジブランコ", "images/Branko.jpg",
+    PinData(700, 100, "ハイジブランコ", "images/Branko.jpg",
         "竹で作られたブランコです。大人の人が遊んでも壊れないが、少し心配かもね。", "images/haiji_buran_0.jpg"),
-    PinData(700, 1100, "受付", "images/CheckIn,Out.jpg", "来場したら一番初めに来てね。",
+    PinData(630, 900, "受付", "images/CheckIn,Out.jpg", "来場したら一番初めに来てね。",
         "images/CheckIn,Out.jpg"),
-    PinData(575, 300, "ツリーデッキ", "images/TreeDeck.jpg", "木の展望台だよ。眺めが最高です！",
+    PinData(500, 80, "ツリーデッキ", "images/TreeDeck.jpg", "木の展望台だよ。眺めが最高です！",
         "images/sky_deck.jpg"),
-    PinData(150, 370, "展望デッキ", "images/deki.jpg", "ツリーデッキより高いよ！",
+    PinData(100, 100, "展望デッキ", "images/deki.jpg", "ツリーデッキより高いよ！",
         "images/sky_deck.jpg"),
-    PinData(900, 370, "工作場", "images/WorkPlace.jpg", "竹を使って色んなものを作ろう！",
+    PinData(800, 370, "工作場", "images/WorkPlace.jpg", "竹を使って色んなものを作ろう！",
         "images/work_space_0.jpg"),
-    PinData(1200, 1100, "竹のシーソー", "images/si-so.jpg", "友達と二人で遊ぼう！",
+    PinData(1080, 900, "竹のシーソー", "images/si-so.jpg", "友達と二人で遊ぼう！",
         "images/si-so-.jpg"),
-    PinData(950, 1050, "笹のトランポリン", "images/Jamp.png", "思ったよりも跳ねるよ！",
+    PinData(850, 900, "笹のトランポリン", "images/Jamp.png", "思ったよりも跳ねるよ！",
         "images/jump_0.jpg"),
-    PinData(370, 450, "ジップライン", "images/JipLine.jpg", "勢いよく飛び立とう！",
+    PinData(310, 200, "ジップライン", "images/JipLine.jpg", "勢いよく飛び立とう！",
         "images/jip_line_0.jpg"),
-    PinData(370, 1100, "荷物置き場", "images/house.jpg", "ここに荷物を置いてね。",
+    PinData(300, 900, "荷物置き場", "images/house.jpg", "ここに荷物を置いてね。",
         "images/house.jpg"),
   ];
 
@@ -148,33 +155,31 @@ class _Map1 extends State<Map1> {
             ),
           ),
           for (PinData pinData in pinDataList)
-            // 一定の scale よりも小さくなったら非表示にする
-            if (scale > 0.9)
-              // Positionedで配置
-              Positioned(
-                // 座標を左上にすると、拡大縮小時にピンの位置がズレていくので、ピンの先端がズレないように固定
-                left: pinData.x - calcWidth(),
-                top: pinData.y - calcHeight(),
-                // 画像の拡大率に合わせて、ピン画像のサイズを調整
-                width: defaultWidth,
-                height: defaultHeight,
-                child: GestureDetector(
-                  child: SizedBox(
-                    width: calcWidth(),
-                    height: calcHeight(),
-                    child: FittedBox(
-                      child: Image.asset(
-                        pinData.imagePath,
-                        fit: BoxFit.contain,
-                      ),
+            // Positionedで配置
+            Positioned(
+              // 座標を左上にすると、拡大縮小時にピンの位置がズレていくので、ピンの先端がズレないように固定
+              left: pinData.x - 1,
+              top: pinData.y - 1,
+              // 画像の拡大率に合わせて、ピン画像のサイズを調整
+              width: defaultWidth,
+              height: defaultHeight,
+              child: GestureDetector(
+                child: SizedBox(
+                  width: calcWidth(),
+                  height: calcHeight(),
+                  child: FittedBox(
+                    child: Image.asset(
+                      pinData.imagePath,
+                      fit: BoxFit.contain,
                     ),
                   ),
-                  onTap: () {
-                    messagePin(
-                        pinData.message, pinData.explan, pinData.realImagePath);
-                  },
                 ),
+                onTap: () {
+                  messagePin(
+                      pinData.message, pinData.explan, pinData.realImagePath);
+                },
               ),
+            ),
         ],
       ),
     );
