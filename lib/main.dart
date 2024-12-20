@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mapapp/firebase_options.dart';
 import 'package:mapapp/map2.dart';
+import 'package:mapapp/pages/admin_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import './map1.dart';
@@ -109,8 +110,17 @@ class _MyHomePageState extends State<MyHomePage> {
                   },
                   title: const Text('生き物図鑑'),
                 ),
-                const ListTile(
-                  title: Text('管理者設定'),
+                ListTile(
+                  title: const Text('管理者設定'),
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return const AdminPage();
+                        },
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
