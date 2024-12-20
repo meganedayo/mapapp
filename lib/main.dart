@@ -1,19 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:mapapp/map2.dart';
 import 'package:mapapp/firebase_options.dart';
+import 'package:mapapp/map2.dart';
+import 'package:mapapp/pages/admin_page.dart';
 import 'package:url_launcher/url_launcher.dart';
-import './map1.dart';
 
+import './map1.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  await FirebaseAuth.instance.useAuthEmulator("localhost", 9099);
 
   if (kDebugMode) {
     try {
@@ -106,14 +110,21 @@ class _MyHomePageState extends State<MyHomePage> {
                   },
                   title: const Text('生き物図鑑'),
                 ),
-                const ListTile(
-                  title: Text('管理者設定'),
+                ListTile(
+                  title: const Text('管理者設定'),
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return const AdminPage();
+                        },
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
           ),
-
-          
           floatingActionButton: FloatingActionButton(
             onPressed: () async {
               final isMap1 = await showModalBottomSheet<bool>(
