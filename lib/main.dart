@@ -4,12 +4,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:mapapp/firebase_options.dart';
-import 'package:mapapp/map2.dart';
-import 'package:mapapp/pages/admin_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import './map1.dart';
+import 'firebase_options.dart';
+import 'pages/admin/admin_page.dart';
+import 'pages/home/map1.dart';
+import 'pages/home/map2.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
