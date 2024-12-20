@@ -1,9 +1,29 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mapapp/map2.dart';
+import 'package:mapapp/firebase_options.dart';
 import 'package:url_launcher/url_launcher.dart';
 import './map1.dart';
 
-void main() {
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  if (kDebugMode) {
+    try {
+      FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
+      FirebaseStorage.instance.useStorageEmulator("localhost", 9199);
+    } catch (e) {
+      // ignore: avoid_print
+      print(e);
+    }
+  }
   runApp(const MyApp());
 }
 
@@ -33,6 +53,7 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
+//https://zenn.dev/susatthi/articles/20220615-160504-flutter-cached-network-image-test
 class _MyHomePageState extends State<MyHomePage> {
   bool _isMap1 = true;
 
