@@ -6,14 +6,14 @@ import 'package:flutter/material.dart';
 import 'admin_logged_in_body.dart';
 import 'admin_not_logged_in_page.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class AdminPage extends StatefulWidget {
+  const AdminPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<AdminPage> createState() => _AdminPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _AdminPageState extends State<AdminPage> {
   User? _user;
   late StreamSubscription _sub;
 
