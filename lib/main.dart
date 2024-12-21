@@ -174,9 +174,9 @@ class _MyHomePageState extends State<MyHomePage> {
           body: _isMap1 ? const Map1() : const Map2(),
         ),
         if (_isGuideVisible)
-          GestureDetector(
-            onTap: _hideGuide, // タッチしたらガイドを消す
-            child: Positioned.fill(
+          Positioned.fill(
+            child: GestureDetector(
+              onTap: _hideGuide,
               child: Container(
                 color: Colors.black.withOpacity(0.5), // 半透明の黒
                 child: Center(
