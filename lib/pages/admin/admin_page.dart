@@ -15,6 +15,19 @@ class AdminPage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("管理者設定"),
+        actions: [
+          if (user != null)
+            Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: ElevatedButton.icon(
+                onPressed: () {
+                  ref.read(authControllerProvider.notifier).signOut();
+                },
+                icon: const Icon(Icons.logout),
+                label: const Flexible(child: Text("管理者画面を終了")),
+              ),
+            ),
+        ],
       ),
       body: user == null
           ? AdminNotLoggedInBody(onSignInPressed: () {
