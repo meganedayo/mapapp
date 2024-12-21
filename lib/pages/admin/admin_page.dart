@@ -35,9 +35,7 @@ class AdminPage extends ConsumerWidget {
           ? AdminNotLoggedInBody(onSignInPressed: () {
               ref.read(authControllerProvider.notifier).signInWithRedirect();
             })
-          : AdminLoggedInBody(onSignOutPressed: () {
-              ref.read(authControllerProvider.notifier).signOut();
-            }),
+          : const AdminLoggedInBody(),
     );
   }
 }
