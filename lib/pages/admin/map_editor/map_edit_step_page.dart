@@ -2,24 +2,18 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mapapp/pages/admin/map_editor/map_editor_page.dart';
 
-enum MapType {
-  illust("イラストマップ"),
-  detail("探索マップ");
+import 'map_data.dart';
 
-  const MapType(this.name);
-
-  final String name;
-}
-
-class MapEditorPage extends StatefulWidget {
-  const MapEditorPage({super.key});
+class MapEditStepPage extends StatefulWidget {
+  const MapEditStepPage({super.key});
 
   @override
-  State<MapEditorPage> createState() => _MapEditorPageState();
+  State<MapEditStepPage> createState() => _MapEditStepPageState();
 }
 
-class _MapEditorPageState extends State<MapEditorPage> {
+class _MapEditStepPageState extends State<MapEditStepPage> {
   var _currentStep = 0;
   MapType? _mapType = MapType.illust;
   ({XFile? file, Uint8List? uint8list}) pickedFile =
@@ -86,7 +80,29 @@ class _MapEditorPageState extends State<MapEditorPage> {
             ),
             Step(
               title: const Text("アトラクションの配置を設定する"),
-              content: Container(),
+              content: Center(
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return MapEditorPage(
+                            image: pickedFile,
+                          );
+                        },
+                      ),
+                    );
+                  },
+                  icon: const Icon(Icons.map_rounded),
+                  label: const Text("アトラクションを配置する"),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(context).primaryColor,
+                    foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 32, vertical: 16),
+                  ),
+                ),
+              ),
               isActive: _currentStep == 2,
               state: _stepState(2, _currentStep, false),
             ),

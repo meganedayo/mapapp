@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mapapp/pages/admin/map_editor/layout_editor_page.dart';
+import 'package:mapapp/pages/admin/map_editor/map_edit_step_page.dart';
 
 class AdminLoggedInBody extends StatelessWidget {
   const AdminLoggedInBody({super.key});
@@ -20,7 +20,7 @@ class AdminLoggedInBody extends StatelessWidget {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) {
-                      return const MapEditorPage();
+                      return const MapEditStepPage();
                     },
                   ),
                 );
