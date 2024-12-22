@@ -10,12 +10,19 @@ class Map2 extends StatefulWidget {
 class _Map2 extends State<Map2> {
   final _transformationController = TransformationController();
   double scale = 1.0;
-  double defaultWidth = 200.0;
-  double defaultHeight = 200.0;
+  double defaultWidth = 220.0;
+  double defaultHeight = 220.0;
   double defFontSize = 20.0;
 
+  @override
+  void initState() {
+    super.initState();
+    _transformationController.value = Matrix4.translationValues(
+        -defaultWidth * 3, -defaultHeight, -defFontSize);
+  }
+
   double calcWidth() {
-    return ((defaultWidth / scale) / 2);
+    return ((defaultWidth / scale) / 3);
   }
 
   double calcHeight() {
