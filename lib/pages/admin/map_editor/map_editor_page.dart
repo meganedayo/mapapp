@@ -25,7 +25,7 @@ class MapEditorPage extends ConsumerWidget {
             child: Padding(
               padding: const EdgeInsets.only(right: 8),
               child: ElevatedButton.icon(
-                onPressed: () => onCompletePressed(context),
+                onPressed: () => _onCompletePressed(context),
                 icon: const Icon(Icons.done),
                 label: const Text("完了"),
                 style: ElevatedButton.styleFrom(
@@ -43,7 +43,7 @@ class MapEditorPage extends ConsumerWidget {
         children: [
           Center(
             child: GestureDetector(
-              onTapDown: (details) => onMapTapped(context, ref, details),
+              onTapDown: (details) => _onMapTapped(context, ref, details),
               child: Image.memory(
                 key: _mapImageKey,
                 _imageFile.uint8list,
@@ -78,7 +78,7 @@ class MapEditorPage extends ConsumerWidget {
     );
   }
 
-  void onCompletePressed(BuildContext context) {
+  void _onCompletePressed(BuildContext context) {
     // 確認ダイアログを表示
     showDialog(
       context: context,
@@ -106,14 +106,14 @@ class MapEditorPage extends ConsumerWidget {
     );
   }
 
-  void onMapTapped(
+  void _onMapTapped(
       BuildContext context, WidgetRef ref, TapDownDetails details) {
     // 画像Widgetの実サイズを取得
     RenderBox mapBox =
         _mapImageKey.currentContext!.findRenderObject() as RenderBox;
 
     // 画像実サイズに対するタップした位置からAlignmentを計算
-    final mapTapAlignment = calcAlignment(details.localPosition, mapBox.size);
+    final mapTapAlignment = _calcAlignment(details.localPosition, mapBox.size);
 
     // attractionPositionsProviderに追加
     ref.read(attractionPositionsProvider.notifier).addByAlignmentAndSize(
@@ -123,7 +123,7 @@ class MapEditorPage extends ConsumerWidget {
         );
   }
 
-  Alignment calcAlignment(Offset tapped, Size size) {
+  Alignment _calcAlignment(Offset tapped, Size size) {
     return Alignment(
       (tapped.dx / (size.width)) * 2 - 1,
       (tapped.dy / (size.height)) * 2 - 1,
