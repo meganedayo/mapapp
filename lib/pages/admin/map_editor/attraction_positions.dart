@@ -18,6 +18,7 @@ class AttractionPositions extends _$AttractionPositions {
   }
 
   /// アラインメント，サイズから新規作成
+  /// 名前と説明は空文字列になるので後で設定する必要がある
   void addByAlignmentAndSize({
     required String attractionId,
     required Alignment alignment,
@@ -27,7 +28,25 @@ class AttractionPositions extends _$AttractionPositions {
         attractionId: attractionId,
         alignment: alignment,
         size: size,
+        isEditing: true,
       ));
+
+  void update(Attraction pos) {
+    state =
+        state.map((p) => p.attractionId == pos.attractionId ? pos : p).toList();
+  }
+
+  void updateByNameAndDescription(
+      String attractionId, String newName, String newDescription) {
+    state = state.map((a) {
+      if (a.attractionId != attractionId) return a;
+      return a.copyWith(
+        name: newName,
+        description: newDescription,
+        isEditing: false,
+      );
+    }).toList();
+  }
 
   /// AttractionPinを削除
   void remove(String attractionId) {
