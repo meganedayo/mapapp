@@ -7,12 +7,12 @@ part of 'attraction_positions.dart';
 // **************************************************************************
 
 String _$attractionPositionsHash() =>
-    r'4f41c2e49fe7d5a6f04913a24e3018ac21378d78';
+    r'15f3edfa9bcec508825ba8fb718515d8efbf7e78';
 
 /// See also [AttractionPositions].
 @ProviderFor(AttractionPositions)
-final attractionPositionsProvider = AutoDisposeNotifierProvider<
-    AttractionPositions, List<AttractionPosition>>.internal(
+final attractionPositionsProvider =
+    AutoDisposeNotifierProvider<AttractionPositions, List<Attraction>>.internal(
   AttractionPositions.new,
   name: r'attractionPositionsProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -22,6 +22,6 @@ final attractionPositionsProvider = AutoDisposeNotifierProvider<
   allTransitiveDependencies: null,
 );
 
-typedef _$AttractionPositions = AutoDisposeNotifier<List<AttractionPosition>>;
+typedef _$AttractionPositions = AutoDisposeNotifier<List<Attraction>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

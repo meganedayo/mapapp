@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-import '../map_editor/attraction_positions.dart';
+import '../map_editor/attraction.dart';
 import 'image_file.dart';
 import 'map_type.dart';
 
@@ -12,7 +12,7 @@ class MapLayoutData {
   final ImageFile image;
 
   /// MapEditPageで作成したAttractionPositions
-  final List<AttractionPosition> attractions;
+  final List<Attraction> attractions;
 
   const MapLayoutData({
     required this.id,

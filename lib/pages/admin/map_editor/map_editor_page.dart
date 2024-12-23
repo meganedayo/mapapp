@@ -129,11 +129,11 @@ class MapEditorPage extends ConsumerWidget {
     // 画像実サイズに対するタップした位置からAlignmentを計算
     final mapTapAlignment = _calcAlignment(details.localPosition, mapBox.size);
 
-    String id = const Uuid().v4();
+    String attractionId = const Uuid().v4();
 
     // attractionPositionsProviderに追加
     ref.read(attractionPositionsProvider.notifier).addByAlignmentAndSize(
-          attractionId: id,
+          attractionId: attractionId,
           alignment: mapTapAlignment,
           size: Size.square(mapBox.size.shortestSide / 7),
         );
@@ -144,9 +144,11 @@ class MapEditorPage extends ConsumerWidget {
 
     if (attractionDetails == null) {
       // キャンセルされた場合は削除
-      ref.read(attractionPositionsProvider.notifier).remove(id);
+      ref.read(attractionPositionsProvider.notifier).remove(attractionId);
       return;
     }
+
+    // 新規アトラクションのデータを更新
   }
 
   Alignment _calcAlignment(Offset tapped, Size size) {
