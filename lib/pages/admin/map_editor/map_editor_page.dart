@@ -149,6 +149,11 @@ class MapEditorPage extends ConsumerWidget {
     }
 
     // 新規アトラクションのデータを更新
+    ref.read(attractionPositionsProvider.notifier).updateByNameAndDescription(
+          attractionId,
+          attractionDetails.name,
+          attractionDetails.description,
+        );
   }
 
   Alignment _calcAlignment(Offset tapped, Size size) {
