@@ -77,9 +77,17 @@ class MapEditorPage extends ConsumerWidget {
                         child: Container(
                           width: attraction.size.width,
                           height: attraction.size.height,
-                          color: Colors.grey.withOpacity(0.5),
+                          decoration: BoxDecoration(
+                            color: Colors.grey.withOpacity(.95),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
                           child: Center(
-                            child: Flexible(child: Text(attraction.name)),
+                            child: Text(
+                              attraction.name,
+                              style: const TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
                           ),
                         ),
                       );
