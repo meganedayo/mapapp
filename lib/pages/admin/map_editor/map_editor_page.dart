@@ -4,7 +4,7 @@ import 'package:mapapp/pages/admin/map_editor/attraction_display_data_input_dial
 import 'package:uuid/uuid.dart';
 
 import '../map_edit_step/image_file.dart';
-import 'attraction_positions.dart';
+import 'attractions.dart';
 
 final _mapImageKey = GlobalKey();
 
@@ -29,7 +29,7 @@ class MapEditorPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final positions = ref.watch(attractionPositionsProvider);
+    final positions = ref.watch(attractionsProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -77,12 +77,14 @@ class MapEditorPage extends ConsumerWidget {
                         child: Container(
                           width: position.size.width,
                           height: position.size.height,
-                          color: Colors.red.withOpacity(0.5),
+                          color: Colors.grey.withOpacity(0.5),
+                          child: Center(
+                            child: Flexible(child: Text(position.name)),
+                          ),
                         ),
                       );
                     },
                   ),
-                  ColoredBox(color: Colors.red.withOpacity(0.5)),
                 ],
               ),
             ),
@@ -132,7 +134,7 @@ class MapEditorPage extends ConsumerWidget {
     String attractionId = const Uuid().v4();
 
     // attractionPositionsProviderに追加
-    ref.read(attractionPositionsProvider.notifier).addByAlignmentAndSize(
+    ref.read(attractionsProvider.notifier).addByAlignmentAndSize(
           attractionId: attractionId,
           alignment: mapTapAlignment,
           size: Size.square(mapBox.size.shortestSide / 7),
@@ -144,12 +146,12 @@ class MapEditorPage extends ConsumerWidget {
 
     if (attractionDetails == null) {
       // キャンセルされた場合は削除
-      ref.read(attractionPositionsProvider.notifier).remove(attractionId);
+      ref.read(attractionsProvider.notifier).remove(attractionId);
       return;
     }
 
     // 新規アトラクションのデータを更新
-    ref.read(attractionPositionsProvider.notifier).updateByNameAndDescription(
+    ref.read(attractionsProvider.notifier).updateByNameAndDescription(
           attractionId,
           attractionDetails.name,
           attractionDetails.description,

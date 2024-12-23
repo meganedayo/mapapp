@@ -3,10 +3,10 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'attraction.dart';
 
-part 'attraction_positions.g.dart';
+part 'attractions.g.dart';
 
 @riverpod
-class AttractionPositions extends _$AttractionPositions {
+class Attractions extends _$Attractions {
   @override
   List<Attraction> build() {
     return [];
