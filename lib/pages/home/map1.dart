@@ -135,7 +135,7 @@ class _Map1 extends State<Map1> {
       constrained: false,
       panEnabled: true,
       scaleEnabled: true,
-      boundaryMargin: const EdgeInsets.all(100.0),
+      boundaryMargin: const EdgeInsets.all(10000.0),
       minScale: 0.1,
       maxScale: 10.0,
       onInteractionUpdate: (details) {

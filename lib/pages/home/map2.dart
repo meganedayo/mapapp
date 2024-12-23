@@ -32,12 +32,13 @@ class _Map2 extends State<Map2> {
   @override
   Widget build(BuildContext context) {
     return InteractiveViewer(
+      transformationController: _transformationController,
       alignment: Alignment.center,
       panAxis: PanAxis.free,
       constrained: false,
       panEnabled: true,
       scaleEnabled: true,
-      boundaryMargin: const EdgeInsets.all(100.0),
+      boundaryMargin: const EdgeInsets.all(10000.0),
       minScale: 0.1,
       maxScale: 10.0,
       onInteractionUpdate: (details) {
@@ -46,7 +47,6 @@ class _Map2 extends State<Map2> {
           scale = _transformationController.value.getMaxScaleOnAxis();
         });
       },
-      transformationController: _transformationController,
       child: Stack(
         alignment: Alignment.center,
         children: <Widget>[

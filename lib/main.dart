@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
             seedColor: const Color.fromARGB(255, 97, 148, 98)),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'プレーパークの遊具ってどんなのがあるのー？'),
+      home: const MyHomePage(title: 'プレーパークの遊具'),
     );
   }
 }
