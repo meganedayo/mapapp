@@ -29,7 +29,7 @@ class MapEditorPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final positions = ref.watch(attractionsProvider);
+    final attractions = ref.watch(attractionsProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -70,16 +70,16 @@ class MapEditorPage extends ConsumerWidget {
               aspectRatio: _imageFile.size.aspectRatio,
               child: Stack(
                 children: [
-                  ...positions.map(
-                    (position) {
+                  ...attractions.map(
+                    (attraction) {
                       return Align(
-                        alignment: position.alignment,
+                        alignment: attraction.alignment,
                         child: Container(
-                          width: position.size.width,
-                          height: position.size.height,
+                          width: attraction.size.width,
+                          height: attraction.size.height,
                           color: Colors.grey.withOpacity(0.5),
                           child: Center(
-                            child: Flexible(child: Text(position.name)),
+                            child: Flexible(child: Text(attraction.name)),
                           ),
                         ),
                       );
