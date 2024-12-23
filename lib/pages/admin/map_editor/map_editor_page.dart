@@ -45,33 +45,7 @@ class MapEditorPage extends ConsumerWidget {
         children: [
           Center(
             child: GestureDetector(
-              onTapDown: (details) {
-                // 画像Widgetの実サイズを取得
-                RenderBox mapBox = _mapImageKey.currentContext!
-                    .findRenderObject() as RenderBox;
-                final mapSize = Size(
-                  mapBox.size.width,
-                  mapBox.size.height,
-                );
-
-                // タップした位置を取得
-                final ({double x, double y}) tapped =
-                    (x: details.localPosition.dx, y: details.localPosition.dy);
-
-                // 画像実サイズに対するタップした位置からAlignmentを計算
-                final alignment = Alignment(
-                  (tapped.x / (mapSize.width)) * 2 - 1,
-                  (tapped.y / (mapSize.height)) * 2 - 1,
-                );
-
-                ref
-                    .read(attractionPositionsProvider.notifier)
-                    .addByAlignmentAndSize(
-                      attractionId: const Uuid().v4(),
-                      alignment: alignment,
-                      size: Size.square(min(mapSize.width, mapSize.height) / 7),
-                    );
-              },
+              onTapDown: (details) => onMapTapped(context, ref, details),
               child: Image.memory(
                 key: _mapImageKey,
                 _imageFile.uint8list,
@@ -132,5 +106,33 @@ class MapEditorPage extends ConsumerWidget {
         );
       },
     );
+  }
+
+  void onMapTapped(
+      BuildContext context, WidgetRef ref, TapDownDetails details) {
+    // 画像Widgetの実サイズを取得
+    RenderBox mapBox =
+        _mapImageKey.currentContext!.findRenderObject() as RenderBox;
+    final mapSize = Size(
+      mapBox.size.width,
+      mapBox.size.height,
+    );
+
+    // タップした位置を取得
+    final ({double x, double y}) tapped =
+        (x: details.localPosition.dx, y: details.localPosition.dy);
+
+    // 画像実サイズに対するタップした位置からAlignmentを計算
+    final alignment = Alignment(
+      (tapped.x / (mapSize.width)) * 2 - 1,
+      (tapped.y / (mapSize.height)) * 2 - 1,
+    );
+
+    // attractionPositionsProviderに追加
+    ref.read(attractionPositionsProvider.notifier).addByAlignmentAndSize(
+          attractionId: const Uuid().v4(),
+          alignment: alignment,
+          size: Size.square(min(mapSize.width, mapSize.height) / 7),
+        );
   }
 }
