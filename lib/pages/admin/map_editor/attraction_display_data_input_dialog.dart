@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class AddAttractionDialogBody extends StatefulWidget {
+class AttractionDisplayDataInputDialog extends StatefulWidget {
   final Function(String, String) _onSubmitted;
   final Function() _onCanceled;
 
-  const AddAttractionDialogBody(
+  const AttractionDisplayDataInputDialog(
       {super.key,
       required Function(String, String) onSubmitted,
       required Function() onCanceled})
@@ -12,11 +12,12 @@ class AddAttractionDialogBody extends StatefulWidget {
         _onCanceled = onCanceled;
 
   @override
-  State<AddAttractionDialogBody> createState() =>
-      _AddAttractionDialogBodyState();
+  State<AttractionDisplayDataInputDialog> createState() =>
+      _AttractionDisplayDataInputDialogState();
 }
 
-class _AddAttractionDialogBodyState extends State<AddAttractionDialogBody> {
+class _AttractionDisplayDataInputDialogState
+    extends State<AttractionDisplayDataInputDialog> {
   final _nameController = TextEditingController();
   final _descriptionController = TextEditingController();
 
@@ -37,10 +38,12 @@ class _AddAttractionDialogBodyState extends State<AddAttractionDialogBody> {
           TextField(
             controller: _nameController,
             decoration: const InputDecoration(labelText: "名前"),
+            autofocus: true,
           ),
           TextField(
             controller: _descriptionController,
             decoration: const InputDecoration(labelText: "説明"),
+            maxLines: 2,
           ),
         ],
       ),

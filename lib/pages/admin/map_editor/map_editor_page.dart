@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mapapp/pages/admin/map_editor/add_attraction_dialog_body.dart';
+import 'package:mapapp/pages/admin/map_editor/attraction_display_data_input_dialog.dart';
 import 'package:uuid/uuid.dart';
 
 import '../map_edit_step/image_file.dart';
@@ -122,10 +122,6 @@ class MapEditorPage extends ConsumerWidget {
 
   Future<void> _onMapTapped(
       BuildContext context, WidgetRef ref, TapDownDetails details) async {
-    final attractionDetails = await _showAddNewAttractionDialog(context);
-
-    if (attractionDetails == null) return;
-
     // 画像Widgetの実サイズを取得
     RenderBox mapBox =
         _mapImageKey.currentContext!.findRenderObject() as RenderBox;
@@ -133,12 +129,24 @@ class MapEditorPage extends ConsumerWidget {
     // 画像実サイズに対するタップした位置からAlignmentを計算
     final mapTapAlignment = _calcAlignment(details.localPosition, mapBox.size);
 
+    String id = const Uuid().v4();
+
     // attractionPositionsProviderに追加
     ref.read(attractionPositionsProvider.notifier).addByAlignmentAndSize(
-          attractionId: const Uuid().v4(),
+          attractionId: id,
           alignment: mapTapAlignment,
           size: Size.square(mapBox.size.shortestSide / 7),
         );
+
+    // 新規アトラクションの追加ダイアログを表示
+    final attractionDetails =
+        await _showAttractionDisplayDataInputDialog(context);
+
+    if (attractionDetails == null) {
+      // キャンセルされた場合は削除
+      ref.read(attractionPositionsProvider.notifier).remove(id);
+      return;
+    }
   }
 
   Alignment _calcAlignment(Offset tapped, Size size) {
@@ -148,12 +156,12 @@ class MapEditorPage extends ConsumerWidget {
     );
   }
 
-  Future<AttractionDisplayData?> _showAddNewAttractionDialog(
+  Future<AttractionDisplayData?> _showAttractionDisplayDataInputDialog(
       BuildContext context) async {
     return await showDialog<AttractionDisplayData>(
       context: context,
       builder: (_) {
-        return AddAttractionDialogBody(
+        return AttractionDisplayDataInputDialog(
           onSubmitted: (String name, String description) {
             Navigator.pop(
               context,

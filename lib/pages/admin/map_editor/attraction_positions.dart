@@ -11,8 +11,8 @@ class AttractionPositions extends _$AttractionPositions {
   }
 
   /// AttractionPinから新規作成
-  void add(AttractionPosition pin) {
-    state = [...state, pin];
+  void add(AttractionPosition pos) {
+    state = [...state, pos];
   }
 
   /// アラインメント，サイズから新規作成
@@ -26,6 +26,11 @@ class AttractionPositions extends _$AttractionPositions {
         alignment: alignment,
         size: size,
       ));
+
+  /// AttractionPinを削除
+  void remove(String attractionId) {
+    state = state.where((pos) => pos.attractionId != attractionId).toList();
+  }
 }
 
 @immutable

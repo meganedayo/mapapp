@@ -7,7 +7,7 @@ part of 'attraction_positions.dart';
 // **************************************************************************
 
 String _$attractionPositionsHash() =>
-    r'8b558d3b1dc72a1c46a6817ae589b13ad3dded9a';
+    r'4f41c2e49fe7d5a6f04913a24e3018ac21378d78';
 
 /// See also [AttractionPositions].
 @ProviderFor(AttractionPositions)
