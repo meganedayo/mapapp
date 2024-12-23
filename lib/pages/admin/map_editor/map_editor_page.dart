@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
@@ -113,26 +111,22 @@ class MapEditorPage extends ConsumerWidget {
     // 画像Widgetの実サイズを取得
     RenderBox mapBox =
         _mapImageKey.currentContext!.findRenderObject() as RenderBox;
-    final mapSize = Size(
-      mapBox.size.width,
-      mapBox.size.height,
-    );
-
-    // タップした位置を取得
-    final ({double x, double y}) tapped =
-        (x: details.localPosition.dx, y: details.localPosition.dy);
 
     // 画像実サイズに対するタップした位置からAlignmentを計算
-    final alignment = Alignment(
-      (tapped.x / (mapSize.width)) * 2 - 1,
-      (tapped.y / (mapSize.height)) * 2 - 1,
-    );
+    final mapTapAlignment = calcAlignment(details.localPosition, mapBox.size);
 
     // attractionPositionsProviderに追加
     ref.read(attractionPositionsProvider.notifier).addByAlignmentAndSize(
           attractionId: const Uuid().v4(),
-          alignment: alignment,
-          size: Size.square(min(mapSize.width, mapSize.height) / 7),
+          alignment: mapTapAlignment,
+          size: Size.square(mapBox.size.shortestSide / 7),
         );
+  }
+
+  Alignment calcAlignment(Offset tapped, Size size) {
+    return Alignment(
+      (tapped.dx / (size.width)) * 2 - 1,
+      (tapped.dy / (size.height)) * 2 - 1,
+    );
   }
 }
