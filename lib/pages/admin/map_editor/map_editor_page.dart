@@ -1,11 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mapapp/pages/admin/map_editor/add_attraction_dialog_body.dart';
 import 'package:uuid/uuid.dart';
 
 import '../map_edit_step/image_file.dart';
 import 'attraction_positions.dart';
 
 final _mapImageKey = GlobalKey();
+
+@immutable
+class AttractionDisplayData {
+  final String id;
+  final String name;
+  final String description;
+
+  const AttractionDisplayData({
+    required this.id,
+    required this.name,
+    required this.description,
+  });
+}
 
 class MapEditorPage extends ConsumerWidget {
   final ImageFile _imageFile;
@@ -106,8 +120,12 @@ class MapEditorPage extends ConsumerWidget {
     );
   }
 
-  void _onMapTapped(
-      BuildContext context, WidgetRef ref, TapDownDetails details) {
+  Future<void> _onMapTapped(
+      BuildContext context, WidgetRef ref, TapDownDetails details) async {
+    final attractionDetails = await _showAddNewAttractionDialog(context);
+
+    if (attractionDetails == null) return;
+
     // 画像Widgetの実サイズを取得
     RenderBox mapBox =
         _mapImageKey.currentContext!.findRenderObject() as RenderBox;
@@ -127,6 +145,28 @@ class MapEditorPage extends ConsumerWidget {
     return Alignment(
       (tapped.dx / (size.width)) * 2 - 1,
       (tapped.dy / (size.height)) * 2 - 1,
+    );
+  }
+
+  Future<AttractionDisplayData?> _showAddNewAttractionDialog(
+      BuildContext context) async {
+    return await showDialog<AttractionDisplayData>(
+      context: context,
+      builder: (_) {
+        return AddAttractionDialogBody(
+          onSubmitted: (String name, String description) {
+            Navigator.pop(
+              context,
+              AttractionDisplayData(
+                id: const Uuid().v4(),
+                name: name,
+                description: description,
+              ),
+            );
+          },
+          onCanceled: () => Navigator.pop(context),
+        );
+      },
     );
   }
 }
