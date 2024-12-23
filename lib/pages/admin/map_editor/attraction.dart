@@ -21,4 +21,21 @@ class Attraction {
       assert(description.isNotEmpty);
     }
   }
+
+  Attraction copyWith({
+    String? name,
+    String? description,
+    Alignment? alignment,
+    Size? size,
+    bool? isEditing,
+  }) {
+    return Attraction(
+      attractionId: attractionId,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      alignment: alignment ?? this.alignment,
+      size: size ?? this.size,
+      isEditing: isEditing ?? false,
+    );
+  }
 }
