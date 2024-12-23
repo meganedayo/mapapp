@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mapapp/pages/admin/map_editor/map_edit_step_page.dart';
+import 'package:mapapp/pages/admin/map_edit_step/map_edit_step_page.dart';
 
 class AdminLoggedInBody extends StatelessWidget {
   const AdminLoggedInBody({super.key});

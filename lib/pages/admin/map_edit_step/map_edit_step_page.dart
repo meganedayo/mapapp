@@ -1,10 +1,9 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mapapp/pages/admin/map_editor/map_editor_page.dart';
 
-import 'map_data.dart';
+import 'image_file.dart';
+import 'map_type.dart';
 
 class MapEditStepPage extends StatefulWidget {
   const MapEditStepPage({super.key});
@@ -16,8 +15,7 @@ class MapEditStepPage extends StatefulWidget {
 class _MapEditStepPageState extends State<MapEditStepPage> {
   var _currentStep = 0;
   MapType? _mapType = MapType.illust;
-  ({XFile? file, Uint8List? uint8list}) pickedFile =
-      (file: null, uint8list: null);
+  ImageFile? pickedFile;
 
   StepState _stepState(
       int stepIndex, int currentStepIndex, bool isStepComplete) {
@@ -76,7 +74,7 @@ class _MapEditStepPageState extends State<MapEditStepPage> {
               title: const Text("背景画像を登録する"),
               content: _buildStep2Content(context),
               isActive: _currentStep == 1,
-              state: _stepState(1, _currentStep, pickedFile.uint8list != null),
+              state: _stepState(1, _currentStep, pickedFile != null),
             ),
             Step(
               title: const Text("アトラクションの配置を設定する"),
@@ -87,7 +85,7 @@ class _MapEditStepPageState extends State<MapEditStepPage> {
                       MaterialPageRoute(
                         builder: (context) {
                           return MapEditorPage(
-                            image: pickedFile,
+                            imageFile: pickedFile!,
                           );
                         },
                       ),
@@ -155,10 +153,18 @@ class _MapEditStepPageState extends State<MapEditStepPage> {
                 return;
               }
 
-              Uint8List imageBytes = await pickedImage.readAsBytes();
+              final imageBytes = await pickedImage.readAsBytes();
+              final image = await decodeImageFromList(imageBytes);
 
               setState(() {
-                pickedFile = (file: pickedImage, uint8list: imageBytes);
+                pickedFile = (
+                  file: pickedImage,
+                  uint8list: imageBytes,
+                  size: Size(
+                    image.width.toDouble(),
+                    image.height.toDouble(),
+                  ),
+                );
               });
             },
             style: ElevatedButton.styleFrom(
@@ -170,14 +176,14 @@ class _MapEditStepPageState extends State<MapEditStepPage> {
             label: const Text("背景画像を選択"),
           ),
         ),
-        if (pickedFile.uint8list != null)
+        if (pickedFile != null)
           Flexible(
             child: SizedBox(
               width: 200,
               height: 200,
               child: FittedBox(
                 fit: BoxFit.contain,
-                child: Image.memory(pickedFile.uint8list!),
+                child: Image.memory(pickedFile!.uint8list),
               ),
             ),
           ),
