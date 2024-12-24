@@ -6,7 +6,7 @@ import 'package:uuid/uuid.dart';
 import '../map_edit_step/image_file.dart';
 import 'attraction_display_data_input_dialog.dart';
 import 'attractions.dart';
-import 'map_size.dart';
+import 'map_key.dart';
 
 @immutable
 class AttractionDisplayData {

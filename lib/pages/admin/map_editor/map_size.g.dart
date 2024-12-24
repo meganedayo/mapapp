@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'map_size.dart';
+part of 'map_key.dart';
 
 // **************************************************************************
 // RiverpodGenerator
