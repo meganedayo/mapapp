@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_box_transform/flutter_box_transform.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mapapp/pages/admin/map_editor/attraction_display_data_input_dialog.dart';
 import 'package:uuid/uuid.dart';
 
 import '../map_edit_step/image_file.dart';
+import 'attraction_display_data_input_dialog.dart';
 import 'attractions.dart';
-
-final _mapImageKey = GlobalKey();
+import 'map_size.dart';
 
 @immutable
 class AttractionDisplayData {
@@ -30,6 +30,7 @@ class MapEditorPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final attractions = ref.watch(attractionsProvider);
+    final mapKey = ref.watch(mapKeyProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -57,9 +58,10 @@ class MapEditorPage extends ConsumerWidget {
         children: [
           Center(
             child: GestureDetector(
-              onTapDown: (details) => _onMapTapped(context, ref, details),
+              onTapDown: (details) => _onMapTapped(
+                  context, details, ref, mapKey.currentContext!.size!),
               child: Image.memory(
-                key: _mapImageKey,
+                key: mapKey,
                 _imageFile.uint8list,
                 fit: BoxFit.contain,
               ),
@@ -70,26 +72,41 @@ class MapEditorPage extends ConsumerWidget {
               aspectRatio: _imageFile.size.aspectRatio,
               child: Stack(
                 children: [
-                  ...attractions.map(
-                    (attraction) {
-                      return Align(
-                        alignment: attraction.alignment,
-                        child: Container(
-                          width: attraction.size.width,
-                          height: attraction.size.height,
-                          decoration: BoxDecoration(
-                            color: Colors.grey.withOpacity(.95),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Center(
-                            child: Text(
-                              attraction.name,
-                              style: const TextStyle(
-                                color: Colors.white,
+                  ...attractions.entries.map(
+                    (entry) {
+                      final attraction = entry.value;
+
+                      return TransformableBox(
+                        rect: _twoAlignmentToRect(
+                          topLeft: attraction.rectAlignments.topLeft,
+                          bottomRight: attraction.rectAlignments.bottomRight,
+                        ),
+                        onChanged: (result, event) {
+                          final rectAlignments = _rectTo2Alignment(result.rect);
+
+                          ref.read(attractionsProvider.notifier).update(
+                                attractionId: attraction.attractionId,
+                                rectAlignments: rectAlignments,
+                              );
+                        },
+                        contentBuilder: (context, rect, flip) {
+                          return Container(
+                            width: rect.width,
+                            height: rect.height,
+                            decoration: BoxDecoration(
+                              color: Colors.grey.withOpacity(.95),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Center(
+                              child: Text(
+                                attraction.name,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
-                          ),
-                        ),
+                          );
+                        },
                       );
                     },
                   ),
@@ -130,39 +147,31 @@ class MapEditorPage extends ConsumerWidget {
     );
   }
 
-  Future<void> _onMapTapped(
-      BuildContext context, WidgetRef ref, TapDownDetails details) async {
-    // 画像Widgetの実サイズを取得
-    RenderBox mapBox =
-        _mapImageKey.currentContext!.findRenderObject() as RenderBox;
-
-    // 画像実サイズに対するタップした位置からAlignmentを計算
-    final mapTapAlignment = _calcAlignment(details.localPosition, mapBox.size);
-
-    String attractionId = const Uuid().v4();
-
-    // attractionPositionsProviderに追加
-    ref.read(attractionsProvider.notifier).addByAlignmentAndSize(
-          attractionId: attractionId,
-          alignment: mapTapAlignment,
-          size: Size.square(mapBox.size.shortestSide / 7),
-        );
-
+  Future<void> _onMapTapped(BuildContext context, TapDownDetails details,
+      WidgetRef ref, Size mapSize) async {
     // 新規アトラクションの追加ダイアログを表示
     final attractionDetails =
         await _showAttractionDisplayDataInputDialog(context);
 
-    if (attractionDetails == null) {
-      // キャンセルされた場合は削除
-      ref.read(attractionsProvider.notifier).remove(attractionId);
-      return;
-    }
+    if (attractionDetails == null) return;
+
+    String attractionId = const Uuid().v4();
+
+    Size defaultAttractionSize = Size.square(mapSize.shortestSide / 6);
+
+    Alignment rectCenter = _calcAlignment(details.localPosition, mapSize);
+
+    Rect rect =
+        rectCenter.inscribe(defaultAttractionSize, Offset.zero & mapSize);
+
+    final rectAlignments = _rectTo2Alignment(rect);
 
     // 新規アトラクションのデータを更新
-    ref.read(attractionsProvider.notifier).updateByNameAndDescription(
-          attractionId,
-          attractionDetails.name,
-          attractionDetails.description,
+    ref.read(attractionsProvider.notifier).add(
+          attractionId: attractionId,
+          rectAlignments: rectAlignments,
+          name: attractionDetails.name,
+          description: attractionDetails.description,
         );
   }
 
@@ -170,6 +179,29 @@ class MapEditorPage extends ConsumerWidget {
     return Alignment(
       (tapped.dx / (size.width)) * 2 - 1,
       (tapped.dy / (size.height)) * 2 - 1,
+    );
+  }
+
+  ({Alignment topLeft, Alignment bottomRight}) _rectTo2Alignment(Rect rect) {
+    return (
+      topLeft: Alignment(
+        rect.left / 2 + 0.5,
+        rect.top / 2 + 0.5,
+      ),
+      bottomRight: Alignment(
+        rect.right / 2 + 0.5,
+        rect.bottom / 2 + 0.5,
+      ),
+    );
+  }
+
+  Rect _twoAlignmentToRect(
+      {required Alignment topLeft, required Alignment bottomRight}) {
+    return Rect.fromLTRB(
+      topLeft.x * 2 - 1,
+      topLeft.y * 2 - 1,
+      bottomRight.x * 2 - 1,
+      bottomRight.y * 2 - 1,
     );
   }
 

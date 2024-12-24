@@ -1,25 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'attractions.dart';
+part of 'map_size.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$attractionsHash() => r'07b98245d602e35cbeb3ba5cd4d27f839532983f';
+String _$mapKeyHash() => r'35adbd704dfda233d766bc51947a0caa7ce81147';
 
-/// See also [Attractions].
-@ProviderFor(Attractions)
-final attractionsProvider =
-    AutoDisposeNotifierProvider<Attractions, Map<String, Attraction>>.internal(
-  Attractions.new,
-  name: r'attractionsProvider',
+/// See also [mapKey].
+@ProviderFor(mapKey)
+final mapKeyProvider = Provider<GlobalKey>.internal(
+  mapKey,
+  name: r'mapKeyProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$attractionsHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : _$mapKeyHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$Attractions = AutoDisposeNotifier<Map<String, Attraction>>;
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef MapKeyRef = ProviderRef<GlobalKey>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
