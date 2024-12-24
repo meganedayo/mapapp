@@ -89,6 +89,10 @@ class MapEditorPage extends ConsumerWidget {
                                 rectAlignments: rectAlignments,
                               );
                         },
+                        allowContentFlipping: false,
+                        allowFlippingWhileResizing: false,
+                        enabledHandles: HandlePosition.corners.toSet(),
+                        visibleHandles: HandlePosition.corners.toSet(),
                         contentBuilder: (context, rect, flip) {
                           return Container(
                             width: rect.width,
