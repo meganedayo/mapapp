@@ -80,39 +80,7 @@ class _MapEditStepPageState extends State<MapEditStepPage> {
             ),
             Step(
               title: const Text("アトラクションの配置を設定する"),
-              content: Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    ElevatedButton.icon(
-                      onPressed: () async =>
-                          await _onMapEditorLaunched(context),
-                      icon: const Icon(Icons.map_rounded),
-                      label: const Text("アトラクションを配置する"),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Theme.of(context).primaryColor,
-                        foregroundColor:
-                            Theme.of(context).colorScheme.onPrimary,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 32, vertical: 16),
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    if (mapLayout != null)
-                      Wrap(
-                        runSpacing: 10,
-                        alignment: WrapAlignment.center,
-                        spacing: 10,
-                        children: [
-                          for (final attraction in mapLayout!.values)
-                            Chip(
-                              label: Text(attraction.name),
-                            ),
-                        ],
-                      )
-                  ],
-                ),
-              ),
+              content: _buildStep3Content(context),
               isActive: _currentStep == 2,
               state: _stepState(2, _currentStep, false),
             ),
@@ -200,6 +168,39 @@ class _MapEditStepPageState extends State<MapEditStepPage> {
             ),
           ),
       ],
+    );
+  }
+
+  Center _buildStep3Content(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ElevatedButton.icon(
+            onPressed: () async => await _onMapEditorLaunched(context),
+            icon: const Icon(Icons.map_rounded),
+            label: const Text("アトラクションを配置する"),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Theme.of(context).primaryColor,
+              foregroundColor: Theme.of(context).colorScheme.onPrimary,
+              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+            ),
+          ),
+          const SizedBox(height: 10),
+          if (mapLayout != null)
+            Wrap(
+              runSpacing: 10,
+              alignment: WrapAlignment.center,
+              spacing: 10,
+              children: [
+                for (final attraction in mapLayout!.values)
+                  Chip(
+                    label: Text(attraction.name),
+                  ),
+              ],
+            )
+        ],
+      ),
     );
   }
 
