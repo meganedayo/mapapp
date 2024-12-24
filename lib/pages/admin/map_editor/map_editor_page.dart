@@ -40,7 +40,7 @@ class MapEditorPage extends ConsumerWidget {
             child: Padding(
               padding: const EdgeInsets.only(right: 8),
               child: ElevatedButton.icon(
-                onPressed: () => _onCompletePressed(context),
+                onPressed: () => _onCompletePressed(context, ref),
                 icon: const Icon(Icons.done),
                 label: const Text("完了"),
                 style: ElevatedButton.styleFrom(
@@ -123,7 +123,7 @@ class MapEditorPage extends ConsumerWidget {
     );
   }
 
-  void _onCompletePressed(BuildContext context) {
+  void _onCompletePressed(BuildContext context, WidgetRef ref) {
     // 確認ダイアログを表示
     showDialog(
       context: context,
@@ -139,10 +139,11 @@ class MapEditorPage extends ConsumerWidget {
             TextButton(
               child: const Text("保存"),
               onPressed: () {
-                // 保存処理
+                // ダイアログを閉じる
+                Navigator.pop(context);
 
-                Navigator.pop(context);
-                Navigator.pop(context);
+                // MapEditorPageを閉じる
+                Navigator.pop(context, ref.read(attractionsProvider));
               },
             ),
           ],
