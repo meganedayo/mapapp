@@ -82,7 +82,8 @@ class _MapEditStepPageState extends State<MapEditStepPage> {
               title: const Text("アトラクションの配置を設定する"),
               content: _buildStep3Content(context),
               isActive: _currentStep == 2,
-              state: _stepState(2, _currentStep, false),
+              state: _stepState(
+                  2, _currentStep, mapLayout != null && mapLayout!.isNotEmpty),
             ),
             Step(
               title: const Text("完了"),
