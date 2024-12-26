@@ -163,14 +163,14 @@ class _FetchAttractionImagesProviderElement
 }
 
 String _$fetchAttractionImageHash() =>
-    r'0ab0789123f891a9f3a14734a9c117801f8c08ed';
+    r'830bab917e2719b6fe282c03b9d60d50a95c3305';
 
 /// See also [fetchAttractionImage].
 @ProviderFor(fetchAttractionImage)
 const fetchAttractionImageProvider = FetchAttractionImageFamily();
 
 /// See also [fetchAttractionImage].
-class FetchAttractionImageFamily extends Family<AsyncValue<String?>> {
+class FetchAttractionImageFamily extends Family<AsyncValue<String>> {
   /// See also [fetchAttractionImage].
   const FetchAttractionImageFamily();
 
@@ -208,7 +208,7 @@ class FetchAttractionImageFamily extends Family<AsyncValue<String?>> {
 }
 
 /// See also [fetchAttractionImage].
-class FetchAttractionImageProvider extends AutoDisposeFutureProvider<String?> {
+class FetchAttractionImageProvider extends AutoDisposeFutureProvider<String> {
   /// See also [fetchAttractionImage].
   FetchAttractionImageProvider(
     String attractionId,
@@ -243,7 +243,7 @@ class FetchAttractionImageProvider extends AutoDisposeFutureProvider<String?> {
 
   @override
   Override overrideWith(
-    FutureOr<String?> Function(FetchAttractionImageRef provider) create,
+    FutureOr<String> Function(FetchAttractionImageRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -260,7 +260,7 @@ class FetchAttractionImageProvider extends AutoDisposeFutureProvider<String?> {
   }
 
   @override
-  AutoDisposeFutureProviderElement<String?> createElement() {
+  AutoDisposeFutureProviderElement<String> createElement() {
     return _FetchAttractionImageProviderElement(this);
   }
 
@@ -281,13 +281,13 @@ class FetchAttractionImageProvider extends AutoDisposeFutureProvider<String?> {
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-mixin FetchAttractionImageRef on AutoDisposeFutureProviderRef<String?> {
+mixin FetchAttractionImageRef on AutoDisposeFutureProviderRef<String> {
   /// The parameter `attractionId` of this provider.
   String get attractionId;
 }
 
 class _FetchAttractionImageProviderElement
-    extends AutoDisposeFutureProviderElement<String?>
+    extends AutoDisposeFutureProviderElement<String>
     with FetchAttractionImageRef {
   _FetchAttractionImageProviderElement(super.provider);
 

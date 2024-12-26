@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mapapp/pages/admin/map_edit_step/map_edit_step_page.dart';
+import 'package:mapapp/pages/admin/upload_form/upload_form_page.dart';
 
 class AdminLoggedInBody extends StatelessWidget {
   const AdminLoggedInBody({super.key});
@@ -30,7 +31,15 @@ class AdminLoggedInBody extends StatelessWidget {
             ListTile(
               title: const Text("アトラクションの画像を新しく追加する"),
               leading: const Icon(Icons.upload_file_rounded),
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return const UploadFormPage();
+                    },
+                  ),
+                );
+              },
             ),
             const Divider(),
           ],

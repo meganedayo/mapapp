@@ -300,7 +300,7 @@ class _MapEditStepPageState extends State<MapEditStepPage> {
         {};
 
     setState(() {
-      this._mapLayout = mapLayout;
+      _mapLayout = mapLayout;
     });
   }
 }
