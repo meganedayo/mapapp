@@ -56,14 +56,6 @@ class Attraction {
   }
 
   Map<String, dynamic> toFirestore() {
-    debugPrint("toFirestore:");
-    debugPrint("  attractionId: $attractionId");
-    debugPrint("  rectAlignments.topLeft.x: ${rectAlignments.topLeft.x}");
-    debugPrint("  rectAlignments.topLeft.y: ${rectAlignments.topLeft.y}");
-    debugPrint(
-        "  rectAlignments.bottomRight.x: ${rectAlignments.bottomRight.x}");
-    debugPrint(
-        "  rectAlignments.bottomRight.y: ${rectAlignments.bottomRight.y}");
     return {
       'attractionId': attractionId,
       'rectAlignments': {
