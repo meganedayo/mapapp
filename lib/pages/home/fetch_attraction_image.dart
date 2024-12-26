@@ -59,12 +59,12 @@ Future<List<String>> fetchAttractionImages(Ref ref, String attractionId) async {
 }
 
 @riverpod
-Future<String?> fetchAttractionImage(Ref ref, String attractionId) async {
+Future<String> fetchAttractionImage(Ref ref, String attractionId) async {
   final attractionImageUrls =
       ref.watch(fetchAttractionImagesProvider(attractionId));
 
   if (attractionImageUrls.value == null || attractionImageUrls.value!.isEmpty) {
-    return null;
+    return "";
   }
 
   // ランダムな要素を返す
