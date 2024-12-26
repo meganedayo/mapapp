@@ -6,7 +6,7 @@ import '../pages/admin/map_editor/attraction.dart';
 
 const illustMapId = 'illust';
 
-/// Stepで作る予定のデータ
+/// Stepで作る予定のデータ, アップロード時用
 @immutable
 class MapLayoutData {
   final MapType type;

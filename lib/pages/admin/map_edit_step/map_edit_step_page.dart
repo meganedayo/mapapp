@@ -3,7 +3,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../../firestore/map_layout.dart';
+import '../../../firestore/map_layout_data.dart';
 import '../map_editor/attraction.dart';
 import '../map_editor/map_editor_page.dart';
 import 'image_file.dart';
