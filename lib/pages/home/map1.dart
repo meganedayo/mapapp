@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mapapp/pages/home/attraction_pin.dart';
 import 'package:mapapp/pages/home/fetch_map_layout.dart';
 
 import '../admin/map_editor/attraction.dart';
+import '../admin/map_editor/map_editor_page.dart';
 import 'fetch_attractions.dart';
 
 class Map1 extends ConsumerStatefulWidget {
@@ -115,77 +117,19 @@ class _Map1State extends ConsumerState<Map1> {
     return Positioned(
       top: topLeftOffset.dy,
       left: topLeftOffset.dx,
-      child: GestureDetector(
-        child: Container(
-          width: bottomRightOffset.dx - topLeftOffset.dx,
-          height: bottomRightOffset.dy - topLeftOffset.dy,
-          color: Colors.grey,
-          child: const FittedBox(
-            child: Text("aaa"),
+      child: Container(
+        width: bottomRightOffset.dx - topLeftOffset.dx,
+        height: bottomRightOffset.dy - topLeftOffset.dy,
+        color: Colors.grey,
+        child: AttractionPin(
+          // できればデータ構造含めてリファクタしたい
+          attraction: AttractionDisplayData(
+            id: attraction.attractionId,
+            name: attraction.name,
+            description: attraction.description,
           ),
         ),
-        onTap: () {
-          messagePin(
-            message: attraction.name,
-            explan: attraction.description,
-          );
-        },
       ),
-    );
-  }
-
-  void messagePin({
-    required String message,
-    required String explan,
-    String realImagePath = "images/Jamp.jpg",
-  }) {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return Container(
-          height: 500,
-          width: double.infinity,
-          color: const Color.fromARGB(255, 97, 148, 98),
-          child: SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                SizedBox(
-                  height: 200.0,
-                  width: double.infinity,
-                  child: Image.asset(realImagePath),
-                ),
-                const ListTile(
-                  leading: Icon(Icons.flutter_dash),
-                  title: Text("遊具説明"),
-                ),
-                Text(
-                  message,
-                  style: const TextStyle(
-                    fontSize: 25.0,
-                    fontWeight: FontWeight.normal,
-                    fontStyle: FontStyle.normal,
-                    letterSpacing: 4.0,
-                  ),
-                ),
-                Text(
-                  explan,
-                  style: const TextStyle(
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.normal,
-                    fontStyle: FontStyle.normal,
-                    letterSpacing: 4.0,
-                  ),
-                ),
-                ListTile(
-                  leading: const Icon(Icons.info_outline_rounded),
-                  title: const Text("イラスト切替"),
-                  onTap: () {}, //一旦ステイ！！！！！！！！！
-                ),
-              ],
-            ),
-          ),
-        );
-      },
     );
   }
 }
