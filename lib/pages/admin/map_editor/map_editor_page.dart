@@ -21,14 +21,21 @@ class AttractionDisplayData {
   });
 }
 
-class MapEditorPage extends ConsumerWidget {
+class MapEditorPage extends ConsumerStatefulWidget {
   final ImageFile _imageFile;
 
   const MapEditorPage({super.key, required ImageFile imageFile})
       : _imageFile = imageFile;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() => _MapEditorPageState();
+}
+
+class _MapEditorPageState extends ConsumerState<MapEditorPage> {
+  final Map<String, Rect> _attractionRects = {};
+
+  @override
+  Widget build(BuildContext context) {
     final attractions = ref.watch(attractionsProvider);
     final mapKey = ref.watch(mapKeyProvider);
 
@@ -62,31 +69,37 @@ class MapEditorPage extends ConsumerWidget {
                   context, details, ref, mapKey.currentContext!.size!),
               child: Image.memory(
                 key: mapKey,
-                _imageFile.uint8list,
+                widget._imageFile.uint8list,
                 fit: BoxFit.contain,
               ),
             ),
           ),
           Center(
             child: AspectRatio(
-              aspectRatio: _imageFile.size.aspectRatio,
+              aspectRatio: widget._imageFile.size.aspectRatio,
               child: Stack(
                 children: [
                   ...attractions.entries.map(
                     (entry) {
                       final attraction = entry.value;
+                      if (!_attractionRects.containsKey(entry.key)) {
+                        debugPrint("koko");
+                      }
+                      final rect = _attractionRects[entry.key];
 
                       return TransformableBox(
-                        rect: _twoAlignmentToRect(
-                          topLeft: attraction.rectAlignments.topLeft,
-                          bottomRight: attraction.rectAlignments.bottomRight,
-                        ),
+                        rect: rect,
                         onChanged: (result, event) {
-                          final rectAlignments = _rectTo2Alignment(result.rect);
+                          setState(() {
+                            _attractionRects[entry.key] = result.rect;
+                          });
 
                           ref.read(attractionsProvider.notifier).update(
-                                attractionId: attraction.attractionId,
-                                rectAlignments: rectAlignments,
+                                attractionId: entry.key,
+                                rectAlignments: _rectTo2Alignment(
+                                  result.rect,
+                                  mapKey.currentContext!.size!,
+                                ),
                               );
                         },
                         allowContentFlipping: false,
@@ -142,8 +155,10 @@ class MapEditorPage extends ConsumerWidget {
                 // ダイアログを閉じる
                 Navigator.pop(context);
 
+                final attractions = ref.read(attractionsProvider);
+
                 // MapEditorPageを閉じる
-                Navigator.pop(context, ref.read(attractionsProvider));
+                Navigator.pop(context, attractions);
               },
             ),
           ],
@@ -169,7 +184,7 @@ class MapEditorPage extends ConsumerWidget {
     Rect rect =
         rectCenter.inscribe(defaultAttractionSize, Offset.zero & mapSize);
 
-    final rectAlignments = _rectTo2Alignment(rect);
+    final rectAlignments = _rectTo2Alignment(rect, mapSize);
 
     // 新規アトラクションのデータを更新
     ref.read(attractionsProvider.notifier).add(
@@ -178,6 +193,10 @@ class MapEditorPage extends ConsumerWidget {
           name: attractionDetails.name,
           description: attractionDetails.description,
         );
+
+    setState(() {
+      _attractionRects[attractionId] = rect;
+    });
   }
 
   Alignment _calcAlignment(Offset tapped, Size size) {
@@ -187,27 +206,50 @@ class MapEditorPage extends ConsumerWidget {
     );
   }
 
-  ({Alignment topLeft, Alignment bottomRight}) _rectTo2Alignment(Rect rect) {
+  /*
+  alignmentX = (offsetX - width/2)/(width/2)
+  alignmentY = (offsetY - height/2)/(height/2)
+ */
+  ({Alignment topLeft, Alignment bottomRight}) _rectTo2Alignment(
+    Rect rect,
+    Size size,
+  ) {
+    final topLeft = rect.topLeft;
+    final topLeftAlignX = (topLeft.dx - size.width / 2) / (size.width / 2);
+    final topLeftAlignY = (topLeft.dy - size.height / 2) / (size.height / 2);
+
+    final bottomRight = rect.bottomRight;
+    final bottomRightAlignX =
+        (bottomRight.dx - size.width / 2) / (size.width / 2);
+    final bottomRightAlignY =
+        (bottomRight.dy - size.height / 2) / (size.height / 2);
+
     return (
-      topLeft: Alignment(
-        rect.left / 2 + 0.5,
-        rect.top / 2 + 0.5,
-      ),
-      bottomRight: Alignment(
-        rect.right / 2 + 0.5,
-        rect.bottom / 2 + 0.5,
-      ),
+      topLeft: Alignment(topLeftAlignX, topLeftAlignY),
+      bottomRight: Alignment(bottomRightAlignX, bottomRightAlignY),
     );
   }
 
-  Rect _twoAlignmentToRect(
-      {required Alignment topLeft, required Alignment bottomRight}) {
-    return Rect.fromLTRB(
-      topLeft.x * 2 - 1,
-      topLeft.y * 2 - 1,
-      bottomRight.x * 2 - 1,
-      bottomRight.y * 2 - 1,
+  /* 
+  offsetX = alignmentX * width/2 + width/2
+  offsetY = alignmentY * height/2 + height/2
+   */
+  Rect _twoAlignmentToRect({
+    required Alignment topLeftAlign,
+    required Alignment bottomRightAlign,
+    required Size mapSize,
+  }) {
+    final topLeftOffset = Offset(
+      topLeftAlign.x * mapSize.width / 2 + mapSize.width / 2,
+      topLeftAlign.y * mapSize.height / 2 + mapSize.height / 2,
     );
+
+    final bottomRightOffset = Offset(
+      bottomRightAlign.x * mapSize.width / 2 + mapSize.width / 2,
+      bottomRightAlign.y * mapSize.height / 2 + mapSize.height / 2,
+    );
+
+    return Rect.fromPoints(topLeftOffset, bottomRightOffset);
   }
 
   Future<AttractionDisplayData?> _showAttractionDisplayDataInputDialog(
