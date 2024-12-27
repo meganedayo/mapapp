@@ -59,7 +59,7 @@ class AttractionPin extends ConsumerWidget {
                 SizedBox(
                   height: 200.0,
                   width: double.infinity,
-                  child: Image.network(realImagePath),
+                  child: Image.network(realImagePath, fit: BoxFit.contain),
                 ),
                 const ListTile(
                   leading: Icon(Icons.flutter_dash),
