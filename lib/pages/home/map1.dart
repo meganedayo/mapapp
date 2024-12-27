@@ -117,10 +117,9 @@ class _Map1State extends ConsumerState<Map1> {
     return Positioned(
       top: topLeftOffset.dy,
       left: topLeftOffset.dx,
-      child: Container(
+      child: SizedBox(
         width: bottomRightOffset.dx - topLeftOffset.dx,
         height: bottomRightOffset.dy - topLeftOffset.dy,
-        color: Colors.grey,
         child: AttractionPin(
           // できればデータ構造含めてリファクタしたい
           attraction: AttractionDisplayData(

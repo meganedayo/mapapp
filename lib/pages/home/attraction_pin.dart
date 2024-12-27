@@ -28,14 +28,14 @@ class AttractionPin extends ConsumerWidget {
     return GestureDetector(
       onTap: () {
         messagePin(
-          context: context,
-          message: attraction.name,
-          explan: attraction.description,
-          realImagePath: imageUrl.value!
-        );
+            context: context,
+            message: attraction.name,
+            explan: attraction.description,
+            realImagePath: imageUrl.value!);
       },
       child: Image.network(
         imageUrl.value!,
+        fit: BoxFit.contain,
       ),
     );
   }
