@@ -31,6 +31,7 @@ class AttractionPin extends ConsumerWidget {
           context: context,
           message: attraction.name,
           explan: attraction.description,
+          realImagePath: imageUrl.value!
         );
       },
       child: Image.network(
@@ -43,7 +44,7 @@ class AttractionPin extends ConsumerWidget {
     required BuildContext context,
     required String message,
     required String explan,
-    String realImagePath = "images/Jamp.jpg",
+    required String realImagePath,
   }) {
     showModalBottomSheet(
       context: context,
@@ -58,7 +59,7 @@ class AttractionPin extends ConsumerWidget {
                 SizedBox(
                   height: 200.0,
                   width: double.infinity,
-                  child: Image.asset(realImagePath),
+                  child: Image.network(realImagePath),
                 ),
                 const ListTile(
                   leading: Icon(Icons.flutter_dash),
